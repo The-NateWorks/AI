@@ -1,4 +1,4 @@
-import re
+import re, random
 import marov_chains
 
 story_starters = [
@@ -57,6 +57,18 @@ story_bodies = [
     "Together, they stepped deeper into the unknown, ready for whatever came next."
 ]
 
+name_part1 = [
+    "Ka", "Lo", "Mi", "Sa", "Ra", "El", "Fi", "No", "Ze",
+    "Ari", "Va", "Li", "Ro", "Te", "Na", "Sol", "Jun", "Rei",
+    "Ma", "Ori", "Ke", "Zan", "Lu", "Eri"
+]
+
+name_part2 = [
+    "ra", "na", "lo", "mi", "ta", "ri", "sa", "vi", "ko",
+    "len", "rin", "dor", "sha", "mon", "tis", "var", "lith",
+    "wen", "sil", "mar", "dai", "rin", "vor"
+]
+
 starter_starts = []
 starter_ends = []
 starter_chain = marov_chains.build_markov_chain(story_starters, starter_starts, starter_ends)
@@ -65,12 +77,18 @@ body_starts = []
 body_ends = []
 body_chain = marov_chains.build_markov_chain(story_bodies, body_starts, body_ends)
 
-def generate_story(text):
+def generate_story(text, length=20):
     text = text.lower()
     characters = extract_keywords(text)
+    sentences = []
 
     start = marov_chains.generate_sentence(starter_chain, "", starter_starts, starter_ends)
-    return start
+    sentences.append(start)
+    for _ in range(length - 1):
+        sentences.append(marov_chains.generate_sentence(body_chain, "", body_starts, body_ends))
+
+    sentences = add_characters(sentences, characters)
+    return " ".join(sentences)
 
 def extract_keywords(text):
     text = text.lower()
@@ -115,3 +133,19 @@ def extract_keywords(text):
             i += 1
 
     return keywords
+
+def add_characters(story_list, characters):
+    new_list = []
+    for sent in story_list:
+        strs = re.findall(r"<char\d+>", sent)
+        locations = [m.start() for m in re.finditer(r"<char\d+>", sent)]
+        for i, char in enumerate(strs):
+            num = int(re.findall(r"\d", char)[0])
+            while len(characters) <= num:
+                characters.append(generate_random_character())
+            sent = sent[:locations[i]] + characters[num] + sent[locations[i] + len(char):]
+        new_list.append(sent)
+    return new_list
+
+def generate_random_character():
+    return random.choice(name_part1) + random.choice(name_part2)

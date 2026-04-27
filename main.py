@@ -2,8 +2,10 @@
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-import random, datetime
+import random, datetime, importlib
 import topics, marov_chains, story
+importlib.reload(story)
+importlib.reload(marov_chains)
 #Memory
 memory = {}
 last_user = None

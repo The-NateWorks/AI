@@ -1,5 +1,6 @@
 #markov_chains.py
 import random
+
 #LLM Sentences
 training_sets = {
     "greeting": [
@@ -126,13 +127,6 @@ training_sets = {
         "That's outside my capabilities.",
         "Sorry, I can't assist with that right now.",
         "I wish I could help, but I can’t do that."
-    ],
-    "story": [
-        "Once upon a time...",
-        "There was a small village...",
-        "A mysterious traveler arrived...",
-        "In a distant kingdom...",
-        "Long ago, before the world was mapped..."
     ],
     "fallback": [
         "I'm here if you want to talk about anything.",
