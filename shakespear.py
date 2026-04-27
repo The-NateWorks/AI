@@ -1,0 +1,22 @@
+shakespeare_lines = [
+    "Good morrow, friend; what tidings dost thou bring",
+    "By my troth, the day grows weary and full of sighs",
+    "Speak plain, for my heart is tangled in thy words",
+    "Thou art a curious soul, wandering where shadows dance",
+    "I prithee, tell me what troubles thy gentle mind",
+    "The night is young, yet my thoughts are old and restless",
+    "Hark, a whisper stirs the quiet air",
+    "Thou seekest wisdom, and I shall lend mine ear",
+    "Fortune’s hand is fickle, yet we walk onward still",
+    "In sooth, thy presence lightens this humble hour",
+    "What sayest thou to a tale of wonder and woe",
+    "The stars above bear witness to our fleeting hours",
+    "Thy words do strike the air like arrows swift and keen",
+    "Soft, let thy temper rest, for peace is close at hand",
+    "Methinks thy heart beats heavy with unspoken cares",
+    "Come, let us speak plainly, for riddles weary the soul",
+    "A gentle breeze carries thy worries far from here",
+    "Thou standest bold, though shadows gather round",
+    "Mark me well, for truth hides not behind my tongue",
+    "The world is wide, yet our paths cross with curious fate"
+]

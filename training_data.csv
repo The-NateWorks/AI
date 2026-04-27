@@ -1,0 +1,194 @@
+text,intent,topic
+
+hi,greeting,social
+hello,greeting,social
+hey,greeting,social
+hey there,greeting,social
+yo,greeting,social
+good morning,greeting,social
+good evening,greeting,social
+good afternoon,greeting,social
+hi there,greeting,social
+what's up,greeting,social
+sup,greeting,social
+howdy,greeting,social
+hiya,greeting,social
+greetings,greeting,social
+good to see you,greeting,social
+nice to see you,greeting,social
+yo yo,greeting,social
+hey man,greeting,social
+hey dude,greeting,social
+hey friend,greeting,social
+hello there,greeting,social
+hi again,greeting,social
+morning,greeting,social
+evening,greeting,social
+hey whats good,greeting,social
+how’s it going,greeting,social
+how are you,greeting,social
+how are you doing,greeting,social
+how you been,greeting,social
+long time no see,greeting,social
+hey buddy,greeting,social
+hey pal,greeting,social
+hey nautical,greeting,social
+
+bye,goodbye,social
+goodbye,goodbye,social
+see ya,goodbye,social
+see you later,goodbye,social
+later,goodbye,social
+i gotta go,goodbye,social
+talk to you later,goodbye,social
+catch you later,goodbye,social
+bye bye,goodbye,social
+i'm leaving,goodbye,social
+i'll talk to you soon,goodbye,social
+see you next time,goodbye,social
+i'm heading out,goodbye,social
+gotta run,goodbye,social
+peace out,goodbye,social
+i'll be back later,goodbye,social
+
+i'm bored,feeling_bored,emotion
+this is boring,feeling_bored,emotion
+i feel bored,feeling_bored,emotion
+i'm so bored,feeling_bored,emotion
+nothing to do,feeling_bored,emotion
+i'm bored right now,feeling_bored,emotion
+i'm bored out of my mind,feeling_bored,emotion
+i'm really bored,feeling_bored,emotion
+i'm bored today,feeling_bored,emotion
+i'm bored again,feeling_bored,emotion
+i need something to do,feeling_bored,emotion
+i'm just sitting here bored,feeling_bored,emotion
+i'm bored and tired,feeling_bored,emotion
+i'm bored help me,feeling_bored,emotion
+
+my name is nate,set_name,identity
+i'm nate,set_name,identity
+i am nate,set_name,identity
+call me nate,set_name,identity
+you can call me nate,set_name,identity
+my name's nate,set_name,identity
+the name's nate,set_name,identity
+this is nate,set_name,identity
+people call me nate,set_name,identity
+i go by nate,set_name,identity
+my name is _,set_name,identity
+i am _,set_name,identity
+call me _,set_name,identity
+
+what's my name,get_name,identity
+do you know my name,get_name,identity
+tell me my name,get_name,identity
+can you remember my name,get_name,identity
+what did i tell you my name was,get_name,identity
+do you remember my name,get_name,identity
+what is my name,get_name,identity
+who am i,get_name,identity
+what did i say my name is,get_name,identity
+
+what is 4 plus 4,ask_math,math
+what is four plus four,ask_math,math
+can you solve this,ask_math,math
+what is the answer to this,ask_math,math
+can you do math,ask_math,math
+solve this for me,ask_math,math
+can you calculate something,ask_math,math
+i need help with math,ask_math,math
+do this math problem,ask_math,math
+
+what do you mean,misunderstanding,confusion
+huh,misunderstanding,confusion
+what,misunderstanding,confusion
+i don't understand,misunderstanding,confusion
+explain,misunderstanding,confusion
+what was that,misunderstanding,confusion
+??,misunderstanding,confusion
+???,misunderstanding,confusion
+i'm confused,misunderstanding,confusion
+that made no sense,misunderstanding,confusion
+what are you talking about,misunderstanding,confusion
+
+I'm Nautical,ask_name,identity
+what is your name,ask_name,identity
+what's your name,ask_name,identity
+tell me your name,ask_name,identity
+who are you,ask_nametracke,identity
+may i know your name,ask_name,identity
+what do i call you,ask_name,identity
+what should i call you,ask_name,identity
+your name please,ask_name,identity
+can you tell me your name,ask_name,identity
+what are you called,ask_name,identity
+are you nautical,ask_name,identity
+
+what day is it,get_day,day
+what is today,get_day,day
+what day are we on,get_day,day
+tell me the day,get_day,day
+what's the date today,get_day,day
+
+what time is it,get_time,time
+what time of day is it,get_time,time
+is it morning,get_time,time
+is it night,get_time,time
+tell me the time,get_time,time
+what's the time right now,get_time,time
+do you know the time,get_time,time
+
+i need help,help,help
+can you help me,help,help
+i need some assistance,help,help
+can you assist me,help,help
+i need support,help,help
+can you help with something,help,help
+i need your help,help,help
+help me out,help,help
+can you give me a hand,help,help
+i need help with this,help,help
+
+thank you,thank_you,social
+thanks,thank_you,social
+thanks a lot,thank_you,social
+thank you so much,thank_you,social
+i appreciate it,thank_you,social
+that helped a lot,thank_you,social
+you're a big help,thank_you,social
+thanks for the help,thank_you,social
+thanks nautical,thank_you,social
+
+sorry,apology,social
+i'm sorry,apology,social
+my bad,apology,social
+sorry about that,apology,social
+i apologize,apology,social
+sorry if i confused you,apology,social
+sorry for the misunderstanding,apology,social
+sorry about the mix up,apology,social
+
+yes,confirmation,social
+yeah,confirmation,social
+yep,confirmation,social
+that's right,confirmation,social
+correct,confirmation,social
+exactly,confirmation,social
+that's true,confirmation,social
+right,confirmation,social
+sure,confirmation,social
+
+no,negation,social
+nope,negation,social
+nah,negation,social
+that's not right,negation,social
+that's not correct,negation,social
+i don't think so,negation,social
+that's wrong,negation,social
+i disagree,negation,social
+
+tell me a story,story,story
+make a story,story,story
+create a story about a dragon,story,story
+can you write a story,story,story
