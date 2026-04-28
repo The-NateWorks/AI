@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Nautical</title>
+        <style>
+            body {
+                
+            }
+            #messages {
+                height: 90%;
+                padding: 0;
+
+                li {
+                    list-style-type: none;
+                    padding: 5px;
+                    @keyframes typing {
+                        from { width: 0 }
+                        to { width: 100% } /* Adjust to match text length */
+                    }
+                }
+            }
+            #messages li:nth-child(odd) {
+                background-color: #efefef;
+            }
+            #form {
+                display: flex;
+                height: 10%;
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                #text {
+                    width: 90%;
+                }
+                button {
+                    width: 10%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <ul id="messages">
+        </ul>
+        <form action="" id="form">
+            <input type="text" autocomplete="off" id="text">
+            <button type="submit">Submit</button>
+        </form>
+        <script src='https://cdn.socket.io/4.7.2/socket.io.min.js'></script>
+        <script>
+            var socket = io()
+            const messages = document.getElementById("messages")
+            const form = document.getElementById("form")
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                addMessage("You: " + form.children[0].value);
+                socket.emit("you", form.children[0].value);
+                form.children[0].value = ""
+            });
+
+            socket.on("nautical", (message) => {
+                addAIMessage("Nautical: " + message);
+            });
+            
+            function addMessage(message) {
+                let newMessage = document.createElement("li")
+                newMessage.innerText = message;
+                messages.append(newMessage)
+                messages.scrollTo(0, messages.scrollHeight);
+            }
+            function addAIMessage(message) {
+                let newMessage = document.createElement("li")
+                messages.append(newMessage)
+                index = 0;
+                typeText(newMessage, index, message);
+                messages.scrollTo(0, messages.scrollHeight);
+            }
+            function typeText(element, index, message) {
+                if (index < message.length) {
+                    element.textContent += message[index];
+                    index++;
+                    setTimeout(() => typeText(element, index, message), 50); // speed (ms)
+                }
+            }
+
+        </script>
+    </body>
+</html>
