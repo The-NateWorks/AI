@@ -31,12 +31,12 @@ def fetch_url(url):
     paragraphs = []
     for p in content.find_all("p"):
         text = p.get_text().strip()
-        if len(text) > 0:  # skip junk
+        if len(text) > 0 and text.endswith(tuple(".!?")):  # skip junk
             paragraphs.append(text)
 
     return paragraphs[:5]
 
-def summarize(text, max_sentences=2):
+def summarize(text, max_sentences=5):
     # Clean up whitespace
     text = re.sub(r"\s+", " ", text).strip()
 
@@ -70,14 +70,15 @@ def get_capital_words(text):
 def search(text):
     data = search_query(text)
     retdata = []
-    if data["Abstract"]:
+    if data["AbstractURL"]:
         topic = data["AbstractURL"].split("/")[-1]
         topic = quote(topic)
         url = f"https://en.wikipedia.org/wiki/{topic}"
         fetched = fetch_url(url)
         summary = summarize(" ".join(fetched))
-        retdata.append(summary)
-    elif data["RelatedTopics"]:
+        if summary:
+            return summary
+    if data["RelatedTopics"]:
         topics = data["RelatedTopics"]
         for t in topics:
             if "FirstURL" in t:

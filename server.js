@@ -14,6 +14,7 @@ var intervals = {}
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
+    console.log(req.connection.remoteAddress)
 });
 
 app.get("/evts", (req, res) => {

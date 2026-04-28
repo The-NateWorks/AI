@@ -3,9 +3,6 @@
     <head>
         <title>Nautical</title>
         <style>
-            body {
-                
-            }
             #messages {
                 height: 90%;
                 padding: 0;
@@ -13,10 +10,6 @@
                 li {
                     list-style-type: none;
                     padding: 5px;
-                    @keyframes typing {
-                        from { width: 0 }
-                        to { width: 100% } /* Adjust to match text length */
-                    }
                 }
             }
             #messages li:nth-child(odd) {
@@ -68,6 +61,7 @@
                 messages.scrollTo(0, messages.scrollHeight);
             }
             function addAIMessage(message) {
+                console.log(message)
                 let newMessage = document.createElement("li")
                 messages.append(newMessage)
                 index = 0;
