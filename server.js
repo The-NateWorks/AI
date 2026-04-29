@@ -9,14 +9,12 @@ var app = express()
 var server = http.createServer(app)
 var io = new Server(server)
 
+process.stdin.setEncoding("utf-8");
+
 var intervals = {}
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
-});
-
-app.get("/evts", (req, res) => {
-    res.send(fs.readFileSync(__dirname + "/evts.json", "utf8"))
 });
 
 io.on("connection", (socket) => {
@@ -42,9 +40,30 @@ io.on("connection", (socket) => {
     socket.on("reqhis", () => {
         socket.emit("history", socket.history);
     });
+
+    socket.on("reqmem", () => {
+        socket.emit("memory", socket.memory);
+    });
 });
 
-server.listen(3000)
+server.listen(3000);
+
+process.stdin.on("data", (data) => {
+    let key = data.trim();
+    switch(key) {
+        case 'exit':
+            process.exit();
+        case 'sockets':
+            console.log(Array.from(io.sockets.sockets.keys()).join("\n"));
+            break;
+
+        case '':
+            break;
+        default:
+            console.log(key + " is not a command.");
+            break;
+    }
+});
 
 function parseJSON(string) {
     let levels = 1;
