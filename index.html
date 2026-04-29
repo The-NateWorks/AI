@@ -22,13 +22,14 @@
 
             h1 {
                 text-align: center;
+                height: 1rem;
             }
 
             #messages {
                 display: flex;
                 flex-direction: column;
                 gap: 0.75rem;
-                height: calc(100vh - 6.5rem);
+                height: calc(100vh - 6.5rem - 3rem);
                 max-width: 820px;
                 margin: 0 auto;
                 padding: 0.25rem;
@@ -219,6 +220,7 @@
                     let newbie = document.createElement("li");
                     newbie.innerText = "Loading...";
                     messages.append(newbie);
+                    messages.scrollTo(0, messages.scrollHeight);
                     isResponding = true;
                 }
             });
