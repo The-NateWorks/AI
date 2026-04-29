@@ -96,7 +96,10 @@ def respond(user_input):
 
     topic_flair = topics.flair_topic(topic, intent)
 
-    if intent in chains:
+    if "name" in memory and memory["name"] == "Jax":
+        main = marov_chains.generate_sentence(chains["comp_jax"], "comp_jax", start_words["comp_jax"], end_words["comp_jax"])
+        topic = ""
+    elif intent in chains:
         main =  marov_chains.generate_sentence(chains[intent], intent, start_words[intent], end_words[intent])
 
     elif intent == "misunderstanding":

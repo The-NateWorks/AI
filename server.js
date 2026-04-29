@@ -4,7 +4,6 @@ const http = require("http")
 const express = require("express")
 const {Server} = require("socket.io")
 const { exec } = require("child_process")
-const { stderr } = require("process")
 
 var app = express()
 var server = http.createServer(app)
@@ -14,7 +13,6 @@ var intervals = {}
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
-    console.log(req.connection.remoteAddress)
 });
 
 app.get("/evts", (req, res) => {
@@ -23,19 +21,43 @@ app.get("/evts", (req, res) => {
 
 io.on("connection", (socket) => {
     console.log("User connected: " + socket.id);
+    socket.memory = {};
+    socket.history = [];
 
     socket.on("you", (mess) => {
-        exec("python server.py " + mess, (err, stout, stderr) => {
-            socket.emit("nautical", stout);
+        socket.history.push("You: " + mess);
+        exec(`python server.py "${mess}" "${JSON.stringify(socket.memory).replaceAll("\"", "'")}"`, (err, stout, stderr) => {
+            if (err) {
+                console.log(err)
+                process.exit()
+            }
+            let memory = parseJSON(stout);
+            socket.memory = JSON.parse(memory);
+            let response = stout.replace(memory, "");
+            socket.history.push("Nautical: " + response);
+            socket.emit("nautical", response);
         });
+    });
+
+    socket.on("reqhis", () => {
+        socket.emit("history", socket.history);
     });
 });
 
 server.listen(3000)
 
-function getEvents() {
-    return JSON.parse(fs.readFileSync(path.join(__dirname, "evts.json"), "utf8"));
-}
-function setEvents(events) {
-    fs.writeFileSync(path.join(__dirname, "evts.json"), JSON.stringify(events));
+function parseJSON(string) {
+    let levels = 1;
+    let firstBracket = string.indexOf("{");
+    for (let i = firstBracket + 1; i < string.length; i++) {
+        if (string[i] == "{") {
+            levels += 1;
+        } else if (string[i] == "}") {
+            levels -= 1;
+        }
+        if (levels == 0) {
+            return string.slice(firstBracket, i + 1);
+        }
+    }
+    return null
 }

@@ -54,8 +54,54 @@ story_bodies = [
     "<char1> brushed dust from an old stone tablet, uncovering a forgotten message.",
     "The message hinted at a power long lost, waiting to be awakened.",
     "<char0> felt a strange connection to the symbols, as if they were meant to find them.",
-    "Together, they stepped deeper into the unknown, ready for whatever came next."
+    "Together, they stepped deeper into the unknown, ready for whatever came next.",
+
+    # --- NEW EXPANDED LINES BELOW ---
+
+    "A soft glow filtered through the branches above, casting shifting patterns across <char0>’s path.",
+    "<char1> paused mid-step, sensing something watching them from the shadows.",
+    "A distant hum vibrated through the ground, growing stronger with every heartbeat.",
+    "<char0> brushed their fingers along the rough bark of an ancient tree, feeling warmth pulsing beneath it.",
+    "The wind carried a whisper that almost sounded like a voice calling their name.",
+    "<char2> emerged from behind a cluster of trees, their expression unreadable.",
+    "<char1> knelt beside a cluster of strange flowers, each petal shimmering like tiny stars.",
+    "A sudden flash of light streaked across the sky, leaving a trail that refused to fade.",
+    "<char3> appeared at the edge of the clearing, clearly shaken by something unseen.",
+    "<char0> felt the air thicken around them, as if the world was shifting into a different shape.",
+    "A narrow stream wound across their path, glowing faintly as though lit from within.",
+    "<char2> lowered their voice, warning the others to stay alert.",
+    "The ground ahead split open just enough to reveal a faint, rhythmic pulse deep below.",
+    "<char1> steadied <char0> as the air rippled unexpectedly around them.",
+    "A faint trail of footprints appeared in the dirt, leading toward a place none of them recognized.",
+    "<char3> studied the prints carefully, noting they didn’t belong to any creature they knew.",
+    "<char0> felt a strange pressure in the air, like the moment before a storm breaks.",
+    "A cluster of fireflies drifted past, moving in a pattern that seemed almost intentional.",
+    "<char2> found a torn scrap of cloth snagged on a branch, its fabric unlike anything they’d seen.",
+    "The forest grew unnaturally quiet, as if holding back a secret.",
+    "<char1> motioned for everyone to stop, sensing something just beyond the treeline.",
+    "A faint melody drifted through the air, haunting and beautiful.",
+    "<char3> whispered that they had heard the song once before, long ago.",
+    "<char0> felt the ground pulse beneath their feet, steady and rhythmic.",
+    "A shimmering doorway flickered into existence before them, then vanished.",
+    "<char2> reached out instinctively, trying to catch the fading light.",
+    "The trees around them shifted subtly, forming a path that hadn’t existed moments earlier.",
+    "<char1> took a cautious step forward, trusting the forest’s guidance.",
+    "A warm glow spread across the horizon, signaling something awakening.",
+    "<char0> sensed they were being watched, though they couldn’t tell from where.",
+    "<char3> pointed to a distant silhouette moving slowly toward them.",
+    "The air crackled with energy, raising the hairs on <char1>’s arms.",
+    "A soft vibration hummed through the ground, resonating with the strange object <char0> carried.",
+    "<char2> noticed symbols appearing faintly on their skin, glowing for only a moment.",
+    "A gentle voice echoed through the clearing, though no one could see its source.",
+    "<char0> felt a sudden surge of courage, stronger than anything they’d felt before.",
+    "The wind shifted direction abruptly, carrying the scent of rain and something ancient.",
+    "<char3> stepped closer to the group, determined not to be left behind.",
+    "A faint outline of a structure appeared in the distance, shimmering like a mirage.",
+    "<char1> recognized the shape from old stories, though they had never believed them.",
+    "The path beneath their feet began to glow, guiding them forward.",
+    "<char0> exchanged a hopeful glance with <char2>, knowing they were close to something important."
 ]
+
 
 name_part1 = [
     "Ka", "Lo", "Mi", "Sa", "Ra", "El", "Fi", "No", "Ze",
@@ -137,13 +183,12 @@ def extract_keywords(text):
 def add_characters(story_list, characters):
     new_list = []
     for sent in story_list:
-        strs = re.findall(r"<char\d+>", sent)
-        locations = [m.start() for m in re.finditer(r"<char\d+>", sent)]
-        for i, char in enumerate(strs):
-            num = int(re.findall(r"\d", char)[0])
+        strs = re.findall(r"<char(\d+)>", sent)
+        for s in strs:
+            num = int(s)
             while len(characters) <= num:
                 characters.append(generate_random_character())
-            sent = sent[:locations[i]] + characters[num] + sent[locations[i] + len(char):]
+            sent = sent.replace(f"<char{num}>", characters[num])
         new_list.append(sent)
     return new_list
 

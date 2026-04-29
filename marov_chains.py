@@ -149,6 +149,28 @@ training_sets = {
         "I’m here to hear whatever you want to share.",
         "You can tell me anything that’s on your mind.",
         "I’m here to keep the conversation going with you."
+    ],
+    "comp_jax": [
+        "Jax, you have a vibe that's totally unmatched today!",
+        "Your aura today is just pure positivity and coolness.",
+        "Jax, you're looking sharper and more confident than ever!",
+        "The energy you give off today is absolutely inspiring.",
+        "Jax, your style and presence today are on another level.",
+        "You're radiating good vibes, and it's contagious!",
+        "Jax, your confidence today is seriously impressive.",
+        "You’ve got that effortless cool factor going on today.",
+        "Your smile today lights up the whole room, Jax.",
+        "Jax, you’re just overall crushing it today — keep it up!",
+        "Jax, your energy today is just next level, so inspiring!",
+        "You have this unstoppable coolness that’s shining through today.",
+        "Jax, your presence today is like a breath of fresh air.",
+        "Your vibe today is so chill and confident — love it!",
+        "Jax, you’re totally owning today with that effortless style.",
+        "Your positivity today is absolutely contagious, keep it coming!",
+        "Jax, you’re just radiating good energy and good vibes.",
+        "Today, you’re looking especially sharp and feeling even better!",
+        "Jax, your aura today is all about strength and coolness.",
+        "You’ve got that magnetic energy today, Jax, keep shining!"
     ]
 }
 

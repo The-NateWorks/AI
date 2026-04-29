@@ -3,55 +3,246 @@
     <head>
         <title>Nautical</title>
         <style>
-            #messages {
-                height: 90%;
-                padding: 0;
+            * { box-sizing: border-box; }
 
-                li {
-                    list-style-type: none;
-                    padding: 5px;
-                }
+            html,
+            body {
+                height: 100%;
             }
-            #messages li:nth-child(odd) {
-                background-color: #efefef;
+
+            body {
+                margin: 0;
+                padding: 1rem 1rem 5.5rem;
+                min-height: 100vh;
+                background: #f4f7fb;
+                color: #172033;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                /*background-color: #6495ff;*/
             }
-            #form {
+
+            h1 {
+                text-align: center;
+            }
+
+            #messages {
                 display: flex;
-                height: 10%;
-                width: 100%;
+                flex-direction: column;
+                gap: 0.75rem;
+                height: calc(100vh - 6.5rem);
+                max-width: 820px;
+                margin: 0 auto;
+                padding: 0.25rem;
+                overflow-y: auto;
+                overflow-x: hidden;
+                list-style-type: none;
+                scroll-behavior: smooth;
+                /*border: solid navy 3px;*/
+                border-radius: 10px;
+            }
+
+            #messages > li {
+                width: fit-content;
+                max-width: min(680px, 88%);
+                padding: 0.75rem 1rem;
+                border: 1px solid #dbe3ef;
+                border-radius: 8px;
+                background: #ffffff;
+                line-height: 1.45;
+                overflow-wrap: anywhere;
+                box-shadow: 0 8px 24px rgba(23, 32, 51, 0.08);
+            }
+
+            #messages > li:nth-child(odd) {
+                align-self: flex-end;
+                background: #dff5ef;
+                border-color: #bfe7dc;
+            }
+
+            #form {
                 position: fixed;
-                bottom: 0;
-                #text {
-                    width: 90%;
-                }
-                button {
-                    width: 10%;
-                }
+                right: 1rem;
+                bottom: 1rem;
+                left: 1rem;
+                display: flex;
+                gap: 0.5rem;
+                max-width: 820px;
+                height: 4rem;
+                margin: 0 auto;
+                padding: 0.5rem;
+                border: 1px solid rgba(23, 32, 51, 0.1);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.88);
+                box-shadow: 0 16px 40px rgba(23, 32, 51, 0.16);
+                backdrop-filter: blur(12px);
+            }
+
+            #text {
+                min-width: 0;
+                flex-grow: 1;
+                border: 1px solid #cbd6e3;
+                border-radius: 6px;
+                padding: 0 1rem;
+                font: inherit;
+            }
+
+            #text:focus {
+                border-color: #1f8a70;
+                outline: 3px solid rgba(31, 138, 112, 0.16);
+            }
+
+            #form > button {
+                border: none;
+                border-radius: 6px;
+                padding: 0 1.1rem;
+                background: #172033;
+                color: #fff;
+                font: inherit;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            #form > button:hover {
+                background: #25304a;
+            }
+
+            #history {
+                position: fixed;
+                inset: 0;
+                z-index: 10;
+                display: grid;
+                place-items: center;
+                padding: 1rem;
+                background: rgba(15, 23, 42, 0.42);
+                backdrop-filter: blur(6px);
+            }
+
+            #history.hidden {
+                display: none;
+            }
+
+            .history-window {
+                display: flex;
+                flex-direction: column;
+                width: min(680px, 100%);
+                max-height: min(680px, 82vh);
+                border: 1px solid rgba(203, 214, 227, 0.9);
+                border-radius: 8px;
+                background: #ffffff;
+                box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+                overflow: hidden;
+            }
+
+            .history-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                padding: 1rem 1.25rem;
+                border-bottom: 1px solid #e6edf5;
+                background: #f8fafc;
+            }
+
+            .history-header h1 {
+                margin: 0;
+                font-size: 1.15rem;
+                line-height: 1.2;
+                text-align: left;
+            }
+
+            .history-header button {
+                display: grid;
+                place-items: center;
+                width: 2.25rem;
+                height: 2.25rem;
+                border: none;
+                border-radius: 6px;
+                background: #edf2f7;
+                color: #172033;
+                font: inherit;
+                font-size: 1.15rem;
+                font-weight: 700;
+                cursor: pointer;
+            }
+
+            .history-header button:hover {
+                background: #dfe7f0;
+            }
+
+            #history p {
+                margin: 0;
+                padding: 1.25rem;
+                overflow-y: auto;
+                overflow-x: hidden;
+                color: #334155;
+                line-height: 1.55;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
             }
         </style>
     </head>
     <body>
+        <div id="history" class="hidden">
+            <div class="history-window">
+                <div class="history-header">
+                    <h1>History</h1>
+                    <button type="button" id="close-history" aria-label="Close history">X</button>
+                </div>
+                <p id="history-text">No history yet.</p>
+            </div>
+        </div>
+        <h1>Nautical</h1>
         <ul id="messages">
         </ul>
         <form action="" id="form">
             <input type="text" autocomplete="off" id="text">
             <button type="submit">Submit</button>
+            <button id="save">⬇</button>
         </form>
         <script src='https://cdn.socket.io/4.7.2/socket.io.min.js'></script>
         <script>
             var socket = io()
-            const messages = document.getElementById("messages")
-            const form = document.getElementById("form")
+            const messages = document.getElementById("messages");
+            const form = document.getElementById("form");
+            const save = document.getElementById("save");
+            const history = document.getElementById("history");
+            const closeHistory = document.getElementById("close-history");
+            const historyText = document.getElementById("history-text");
+
+            var isResponding = false;
 
             form.addEventListener("submit", (e) => {
                 e.preventDefault();
-                addMessage("You: " + form.children[0].value);
-                socket.emit("you", form.children[0].value);
-                form.children[0].value = ""
+                if (!isResponding && form.children[0].value.length > 0) {
+                    addMessage("You: " + form.children[0].value);
+                    socket.emit("you", form.children[0].value);
+                    form.children[0].value = "";
+                    isResponding = true;
+                }
+            });
+
+            save.addEventListener("click", (e) => {
+                e.preventDefault();
+                socket.emit("reqhis");
+                history.classList.remove("hidden");
+            });
+
+            closeHistory.addEventListener("click", () => {
+                history.classList.add("hidden");
+            });
+
+            history.addEventListener("click", (e) => {
+                if (e.target === history) {
+                    history.classList.add("hidden");
+                }
             });
 
             socket.on("nautical", (message) => {
                 addAIMessage("Nautical: " + message);
+            });
+
+            socket.on("history", (his) => {
+                historyText.innerHTML = his.join("<br>") || "No history yet.";
+                history.classList.remove("hidden");
             });
             
             function addMessage(message) {
@@ -71,8 +262,11 @@
             function typeText(element, index, message) {
                 if (index < message.length) {
                     element.textContent += message[index];
+                    messages.scrollTo(0, messages.scrollHeight);
                     index++;
                     setTimeout(() => typeText(element, index, message), 50); // speed (ms)
+                } else {
+                    isResponding = false;
                 }
             }
 
