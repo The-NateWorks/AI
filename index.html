@@ -216,6 +216,9 @@
                     addMessage("You: " + form.children[0].value);
                     socket.emit("you", form.children[0].value);
                     form.children[0].value = "";
+                    let newbie = document.createElement("li");
+                    newbie.innerText = "Loading...";
+                    messages.append(newbie);
                     isResponding = true;
                 }
             });
@@ -253,8 +256,8 @@
             }
             function addAIMessage(message) {
                 console.log(message)
-                let newMessage = document.createElement("li")
-                messages.append(newMessage)
+                let newMessage = messages.children[messages.children.length - 1];
+                newMessage.innerHTML = "";
                 index = 0;
                 typeText(newMessage, index, message);
                 messages.scrollTo(0, messages.scrollHeight);
