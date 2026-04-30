@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Nautical Admin</title>
+        <style>
+            body {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 99fr;
+                place-items: center;
+            }
+            #title {
+                grid-column: 1 / span 3;
+            }
+            #sendCommand {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                #args {
+                    height: 50px;
+                    resize: none;
+                }
+            }
+            #qwikActions {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="title">Nautical-Aser Admin Dashboard</h1>
+        <form id="sendCommand">
+            <h2>Send Command</h2>
+            <input type="text" id="command" placeholder="Command"/>
+            <textarea type="text" id="args" placeholder="Arguments (Separate with ';')"></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <form id="qwikActions">
+            <h2>Quick Actions</h2>
+            <button id="exit">Exit</button>
+        </form>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        document.querySelector("title").innerHTML = "Nautical Admin - " + (document.URL.includes("?password=!@#$%^&*()") ? "Allowed": "Not Allowed");
+        const sendCommand = document.getElementById("sendCommand");
+        const qwikActions = document.getElementById("qwikActions");
+        const client = supabase.createClient("https://jgjdxlulszliepzrhgff.supabase.co", "sb_publishable_JUr3sNI84pNyl30pzxD-dA_bvZhy1w3");
+
+        sendCommand.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            let nauticalInfo = await getNauticalData();
+            let command = e.srcElement.querySelector("#command");
+            let args = e.srcElement.querySelector("#args");
+
+            if (command.value) {
+                let addInfo = [command.value].concat(args.value.split(";"));
+                nauticalInfo.server.commands.push(addInfo);
+                command.value = "";
+                args.value = "";
+               setNauticalData(nauticalInfo);
+            }
+        });
+        Array.from(qwikActions.children).forEach(qwik => {
+            qwik.addEventListener("click", async (e) => {
+                e.preventDefault();
+                let nauticalInfo = await getNauticalData();
+                nauticalInfo.server.commands.push([e.srcElement.id]);
+                setNauticalData(nauticalInfo);
+            });
+        });
+
+        async function getNauticalData() {
+            let nauticalData = await client.from("events").select("*").eq("program", "nautical");
+            let nauticalInfo = {};
+            nauticalData.data.forEach(dati => {
+                nauticalInfo = dati.data;
+            });
+            return nauticalInfo;
+        }
+        async function setNauticalData(data) {
+            if (document.URL.includes("?password=!@#$%^&*()")) await client.from("events").update({data: data}).eq("program", "nautical");
+        }
+    </script>
+</html>

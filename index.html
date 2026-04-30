@@ -272,6 +272,10 @@
             socket.on("memory", (memory) => {
                 alert(JSON.stringify(memory));
             });
+
+            socket.on("alert", (msg) => {
+                alert(msg);
+            });
             
             function addMessage(message) {
                 let newMessage = document.createElement("li")
