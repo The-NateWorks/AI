@@ -1,1 +1,1 @@
-["make me a story", "{}"]
+["What happened", "{}"]

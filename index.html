@@ -305,11 +305,24 @@
                     let randomNumber = Math.floor(Math.random() * scams.length);
                     let newAd = new Image();
                     newAd.src = scams[randomNumber];
+                    newAd.id = "scam";
                     newAd.width = Math.round(Math.random() * 500);
                     document.body.append(newAd);
 
                 }, 1000);
-                setTimeout(() => {clearInterval(glitchLoop);}, 20 * 1000);
+                setTimeout(() => {
+                    clearInterval(glitchLoop);
+                    Array.from(document.querySelectorAll("#scam")).forEach(image => {
+                        image.src = "https://pluspng.com/img-png/fire-hd-png-fire-png-hd-1550.png"
+                    });
+                    document.body.style.backgroundImage = `url(https://pluspng.com/img-png/fire-hd-png-fire-png-hd-1550.png)`;
+                    document.body.style.backgroundImage = `url(https://cdn.pixabay.com/photo/2024/08/26/12/59/mushroom-cloud-8999314_1280.png)`
+                    title.textContent = "🔥".repeat(title.textContent.length);
+                    title.style.color = "orange"
+                    name.textContent = "🔥".repeat(name.textContent.length);
+                    name.style.color = "orange"
+
+                }, 30 * 1000);
             });
             
             function addMessage(message) {
