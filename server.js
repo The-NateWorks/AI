@@ -81,10 +81,16 @@ function cmds(cmd, args) {
         case 'sockets':
             console.log(Array.from(io.sockets.sockets.keys()).join("\n"));
             break;
-        case 'alertAll':
+        case 'alert':
             if (args[0]) {
-                io.emit("alert", args[0]);
+                let func = specifySocket(args, 1);
+                eval(func + ".emit(\"alert\", args[0]);")
             }
+            break;
+        case 'glitchout':
+            let func = specifySocket(args, 0);
+            eval(func + ".emit('glitchout')");
+            break;
 
         case '':
             break;
@@ -108,4 +114,13 @@ function parseJSON(string) {
         }
     }
     return null
+}
+
+function specifySocket(args, argnum) {
+    let socketsArray = Array.from(io.sockets.sockets.keys());
+    if (args.length > argnum && socketsArray.includes(args[1])) {
+        return `io.to('${args[1]}')`;
+    } else {
+        return `io`;
+    }
 }

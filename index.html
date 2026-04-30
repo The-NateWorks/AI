@@ -198,11 +198,17 @@
             <input type="text" autocomplete="off" id="text">
             <button type="submit">Submit</button>
             <button id="save">⬇</button>
-            <button id="group"></button>
+            <!--<button id="group"></button>-->
         </form>
         <script src='https://cdn.socket.io/4.7.2/socket.io.min.js'></script>
         <script>
             var socket = io()
+            const scams = [
+                "https://www.adsoftheworld.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBK0h3QVE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--d714e1d7fd83db89f303c48903e794a92e8af545/thumbnail_54596",
+                "https://phandroid.com/wp-content/uploads/2018/11/popup-ads-670x335-640x320.jpg",
+                "https://www.madisoncountybank.com/uploads/userfiles/files/images/fakescam.png",
+                "https://signal.avg.com/hs-fs/hubfs/Blog_Content/Avg/Signal/AVG%20Signal%20Images/How%20to%20Identify%20a%20Tech%20Support%20Scammer%20(Signal)/Fake-scam.png?width=721&name=Fake-scam.png"
+            ];
             const messages = document.getElementById("messages");
             const form = document.getElementById("form");
             const save = document.getElementById("save");
@@ -210,8 +216,10 @@
             const closeHistory = document.getElementById("close-history");
             const historyText = document.getElementById("history-text");
             const name = document.getElementById("name");
+            const title = document.head.querySelector("title");
 
             var isResponding = false;
+            var glitchResponse = false;
 
             name.addEventListener("click", (e) => {
                 if (e.ctrlKey) {
@@ -261,7 +269,11 @@
             });
 
             socket.on("nautical", (message) => {
-                addAIMessage("Nautical: " + message);
+                let msg = message;
+                if (glitchResponse) {
+                    msg = randomizeOrder(msg.split("")).join("");
+                }
+                addAIMessage("Nautical: " + msg);
             });
 
             socket.on("history", (his) => {
@@ -276,6 +288,29 @@
             socket.on("alert", (msg) => {
                 alert(msg);
             });
+
+            socket.on("glitchout", () => {
+                for (let i = 0; i < 10; i++) {
+                    addMessage(randomLetters(Math.round(Math.random() * 10)));
+                }
+                glitchResponse = true;
+                document.head.querySelector("style").innerHTML = "";
+                var glitchLoop = setInterval(() => {
+                    document.body.style.backgroundColor = randomRGBA();
+                    messages.style.backgroundColor = randomRGBA();
+                    form.style.backgroundColor = randomRGBA();
+                    name.textContent = randomizeOrder(name.textContent.split("")).join("");
+                    title.innerText = randomizeOrder(title.innerText.split("")).join("");
+                    messages.scrollTo(0, Math.round(Math.random() * messages.scrollHeight));
+                    let randomNumber = Math.floor(Math.random() * scams.length);
+                    let newAd = new Image();
+                    newAd.src = scams[randomNumber];
+                    newAd.width = Math.round(Math.random() * 500);
+                    document.body.append(newAd);
+
+                }, 1000);
+                setTimeout(() => {clearInterval(glitchLoop);}, 20 * 1000);
+            });
             
             function addMessage(message) {
                 let newMessage = document.createElement("li")
@@ -286,7 +321,7 @@
             function addAIMessage(message) {
                 console.log(message)
                 let newMessage = messages.children[messages.children.length - 1];
-                newMessage.innerHTML = "";
+                newMessage.textContent = "";
                 index = 0;
                 typeText(newMessage, index, message);
                 messages.scrollTo(0, messages.scrollHeight);
@@ -300,6 +335,31 @@
                 } else {
                     isResponding = false;
                 }
+            }
+            function randomLetters(length) {
+                let word = ""
+                let letters = "abcdefghijklmnopqrstuvwxyz".split('');
+                for (let i = 0; i < length; i++) {
+                    word += letters[Math.floor(Math.random() * letters.length)];
+                }
+                return word;
+            }
+
+            function randomizeOrder(array) {
+                let newArray = [];
+                while (array.length > 0) {
+                    let rndNum = Math.floor(Math.random() * array.length);
+                    newArray.push(array[rndNum]);
+                    array.splice(rndNum, 1);
+                }
+                return newArray;
+            }
+            function randomRGBA() {
+                let r = Math.round(Math.random() * 255);
+                let g = Math.round(Math.random() * 255);
+                let b = Math.round(Math.random() * 255);
+                let a = Math.random();
+                return `rgba(${r}, ${g}, ${b}, ${a})`;
             }
 
         </script>
